@@ -1,5 +1,5 @@
-import { sum } from "../index";
+import { sum } from '../index'
 
-test("My Greeter", () => {
-  expect(2).toBe(2);
-});
+test('My Greeter', () => {
+  expect(2).toBe(2)
+})
