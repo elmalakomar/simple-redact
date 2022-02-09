@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "types": "src/index.d.ts",
   "scripts": {
-    "test": "npm format && jest --config jestconfig.json --passWithNoTests",
+    "test": "npm run format && jest --config jestconfig.json --passWithNoTests",
     "build": "tsc",
     "format": "prettier --write src/",
     "lint": "tslint -p tsconfig.json",
