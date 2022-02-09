@@ -9,7 +9,8 @@
     "build": "tsc",
     "format": "prettier --write src/",
     "lint": "tslint -p tsconfig.json",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "start": "npm run format && npm run build && node build/index.js"
   },
   "repository": {
     "type": "git",
