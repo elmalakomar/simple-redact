@@ -9,6 +9,7 @@ module.exports = {
   extends: [
     'prettier',
   ],
-  rules: [
-  ]
+  rules: {
+    'eol-last': 'always'
+  }
 };
