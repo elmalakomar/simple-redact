@@ -10,14 +10,27 @@ export const example = {
   },
 }
 
-export const toMask = [
-  { field: 'b', type: 'default' },
+enum Type { 
+  REDACT = 'redact',
+  MASK = 'mask',
+}
+
+export interface SingleConfig {
+  field: string
+  type?: Type
+  data?: SingleConfig[]
+}
+
+export type ConfigRedact = SingleConfig[]
+
+export const toMask: ConfigRedact = [
+  { field: 'b', type: Type.REDACT },
   {
     field: 'c',
-    type: 'default',
+    type: Type.REDACT,
     data: [
-      { field: 'd', type: 'default' },
-      { field: 'f', type: 'default', data: [{ field: 'g', type: 'default' }] },
+      { field: 'd', type: Type.MASK },
+      { field: 'f', type: Type.MASK, data: [{ field: 'g' }] },
     ],
   },
 ]
