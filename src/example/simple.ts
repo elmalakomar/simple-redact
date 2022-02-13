@@ -10,7 +10,7 @@ export const example = {
   },
 }
 
-enum Type { 
+enum Type {
   REDACT = 'redact',
   MASK = 'mask',
 }
