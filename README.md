@@ -25,4 +25,4 @@ console.log(redacted) // { a: '[REDACT]', b: 'foo', c: { d: '[REDACT]' } }
 
 ### Note:
 
-The first working version of the lib is v0.1.3
+The first 'working' version of the lib is v0.1.3
