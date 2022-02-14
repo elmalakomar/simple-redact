@@ -1,3 +1,5 @@
+import { ConfigRedact, RedactMethod } from '../typings/ConfigRedact'
+
 export const example = {
   a: '1',
   b: '2',
@@ -10,27 +12,14 @@ export const example = {
   },
 }
 
-enum Type {
-  REDACT = 'redact',
-  MASK = 'mask',
-}
-
-export interface SingleConfig {
-  field: string
-  type?: Type
-  data?: SingleConfig[]
-}
-
-export type ConfigRedact = SingleConfig[]
-
 export const toMask: ConfigRedact = [
-  { field: 'b', type: Type.REDACT },
+  { field: 'b', type: RedactMethod.REDACT },
   {
     field: 'c',
-    type: Type.REDACT,
+    type: RedactMethod.REDACT,
     data: [
-      { field: 'd', type: Type.MASK },
-      { field: 'f', type: Type.MASK, data: [{ field: 'g' }] },
+      { field: 'd', type: RedactMethod.MASK },
+      { field: 'f', type: RedactMethod.MASK, data: [{ field: 'g' }] },
     ],
   },
 ]

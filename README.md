@@ -20,6 +20,7 @@ console.log(redacted) // { a: '[REDACT]', b: 'foo', c: { d: '[REDACT]' } }
 ### TODO:
 
 - Make easier to describe the fields to redact
+- Support simple types
 - Make better documentation with better examples
 - Support multiple ways to redact the values (e.g. masking)
 
