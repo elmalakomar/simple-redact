@@ -19,24 +19,41 @@ describe('redact', () => {
     })
   })
 
-  it('should redact nested objects', () => {
+  describe('nested objects', () => {
     const obj = { a: 'a', b: 'b', c: { d: 'd' } }
-    const toRedact = [
-      { field: 'a' },
-      {
-        field: 'c',
-        data: [
-          {
-            field: 'd',
-          },
-        ],
-      },
-    ]
-    const actual = redact(obj, toRedact)
-    expect(actual).toStrictEqual({
-      a: '[REDACT]',
-      b: 'b',
-      c: { d: '[REDACT]' },
+    it('should redact field in nested objects', () => {
+      const toRedact = [
+        { field: 'a' },
+        {
+          field: 'c',
+          data: [
+            {
+              field: 'd',
+            },
+          ],
+        },
+      ]
+      const actual = redact(obj, toRedact)
+      expect(actual).toStrictEqual({
+        a: '[REDACT]',
+        b: 'b',
+        c: { d: '[REDACT]' },
+      })
+    })
+
+    it('should redact nested object', () => {
+      const toRedact = [
+        { field: 'a' },
+        {
+          field: 'c',
+        },
+      ]
+      const actual = redact(obj, toRedact)
+      expect(actual).toStrictEqual({
+        a: '[REDACT]',
+        b: 'b',
+        c: '[REDACT]',
+      })
     })
   })
 })
