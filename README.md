@@ -4,7 +4,7 @@ library with function that redacts specified fields inside json object
 
 ### How it works
 
-The library expose a single function `redact` that takes 2 arguments. The object to redact and an array describing which are the fields to redact and how.
+The library exposes a single function `redact` that takes 2 arguments. The object to redact and an array describing which are the fields to redact and how.
 
 ### Example
 
@@ -12,8 +12,8 @@ The library expose a single function `redact` that takes 2 arguments. The object
 const { redact } = require('simple-redact')
 
 const toRedact = { a: 'bar', b: 'foo', c: { d: 'pluto'} }
-const map = [{ field: 'a' }, { field: 'c', data: [{ field: 'd' }]}]
-const redacted = redact(toRedact, map)
+const config = [ 'a', 'c.d' ]
+const redacted = redact(toRedact, config)
 console.log(redacted) // { a: '[REDACT]', b: 'foo', c: { d: '[REDACT]' } }
 ```
 
