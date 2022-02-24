@@ -42,7 +42,3 @@ const buildFieldConfig = (
   )
   return
 }
-
-const strings = ['a', 'c', 'a.b.x']
-const config = buildConfig(strings)
-console.log(JSON.stringify(config))
