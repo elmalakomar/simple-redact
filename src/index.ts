@@ -1,10 +1,30 @@
 import { isObject } from './lib/utils'
-import { ConfigRedact, SingleConfig } from './typings/ConfigRedact'
+import { buildConfig } from './lib/buildConfig'
+import {
+  ConfigRedact,
+  RedactMethod,
+  SingleConfig,
+} from './typings/ConfigRedact'
 
-export const redact = (obj: Record<string, any>, toRedact: ConfigRedact) => {
-  const result = JSON.parse(JSON.stringify(obj))
+export default class Redacter {
+  private redactMethod: RedactMethod
 
-  const internalRedact = (
+  constructor(redactMethod: RedactMethod = RedactMethod.REDACT) {
+    this.redactMethod = redactMethod
+  }
+
+  private applyRedactMethod(fieldToRedact: any, method?: RedactMethod) {
+    fieldToRedact = String(fieldToRedact)
+    const methodToApply = method ? method : this.redactMethod
+    if (methodToApply === RedactMethod.MASK) {
+      return '*'.repeat(fieldToRedact.length)
+    }
+    if (methodToApply === RedactMethod.REDACT) {
+      return '[REDACT]'
+    }
+  }
+
+  private internalRedact = (
     obj: Record<string, any>,
     toRedact: ConfigRedact,
     result: Record<string, any>
@@ -13,19 +33,38 @@ export const redact = (obj: Record<string, any>, toRedact: ConfigRedact) => {
     toRedact.forEach((fieldToRedact: SingleConfig) => {
       const fieldToManipulate = fieldToRedact.field
       if (availableKeys.includes(fieldToManipulate)) {
-        if (isObject(result[fieldToRedact.field]) && fieldToRedact.data) {
-          internalRedact(
+        if (
+          isObject(result[fieldToRedact.field]) &&
+          fieldToRedact.data &&
+          fieldToRedact.data.length > 0
+        ) {
+          this.internalRedact(
             obj[fieldToRedact.field],
             fieldToRedact.data,
             result[fieldToRedact.field]
           )
           return
         }
-        return (result[fieldToRedact.field] = '[REDACT]')
+        result[fieldToRedact.field] = this.applyRedactMethod(
+          result[fieldToRedact.field],
+          fieldToRedact.type
+        )
+        return
       }
     })
     return
   }
-  internalRedact(obj, toRedact, result)
-  return result
+
+  public simpleRedact = (obj: Record<string, any>, config: string[]) => {
+    const result = JSON.parse(JSON.stringify(obj))
+    const toRedact = buildConfig(config)
+    this.internalRedact(obj, toRedact, result)
+    return result
+  }
+
+  public redact = (obj: Record<string, any>, config: ConfigRedact) => {
+    const result = JSON.parse(JSON.stringify(obj))
+    this.internalRedact(obj, config, result)
+    return result
+  }
 }

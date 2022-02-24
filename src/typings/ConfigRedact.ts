@@ -6,7 +6,7 @@ export enum RedactMethod {
 export interface SingleConfig {
   field: string
   type?: RedactMethod
-  data?: SingleConfig[]
+  data?: ConfigRedact
 }
 
 export type ConfigRedact = SingleConfig[]
